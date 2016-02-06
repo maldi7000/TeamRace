@@ -1,0 +1,17 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Properties="clr-namespace:TeamRace.Properties" x:Class="TeamRace.MainWindow"
+        Title="Manschaftsrennen Auswertung" Height="350" Width="525">
+    <Grid>
+        <TextBox Height="23" Margin="10,11,90,0" TextWrapping="Wrap" VerticalAlignment="Top" IsEnabled="False" x:Name="fileTextBox" />
+        <Button Content="Datei öffnen" x:Name="openFileButton" Margin="0,10,10,0" VerticalAlignment="Top" RenderTransformOrigin="6.267,0.6" Height="24" Click="openFileButtonClick" HorizontalAlignment="Right" Width="75"/>
+        <Button Content="Exportieren" x:Name="exportButton" Margin="0,39,10,0" VerticalAlignment="Top" Click="exportButtonClick" Height="24" HorizontalAlignment="Right" Width="75" />
+        <TabControl x:Name="teamTabControl" Margin="86,0,90,10" Height="230" VerticalAlignment="Bottom"/>
+        <Label Content="Klasse:" HorizontalAlignment="Left" Height="36" Margin="36,0,0,204" VerticalAlignment="Bottom" Width="45" RenderTransformOrigin="0.422,1.139"/>
+        <Label Content="Trophy-Zeit:" HorizontalAlignment="Left" Height="35" Margin="6,39,0,0" VerticalAlignment="Top" Width="75"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="86,42,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="51" IsEnabled="False" x:Name="trophyTimeTextBox" />
+
+
+    </Grid>
+</Window>
