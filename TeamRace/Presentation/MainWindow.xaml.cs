@@ -206,15 +206,17 @@ namespace TeamRace
             latexWriter.setTitle(title);
             latexWriter.setIsTrophy(isTrophy);
 
-            File.WriteAllText(folderPath + "\\" + title + ".tex", latexWriter.GenerateLatex());
+            File.WriteAllText(folderPath + "\\table.tex", latexWriter.GenerateLatex());
+            // TODO: mv main.tex file (from Application) there and then compile compile there
             Process latexCompile = new Process();
             latexCompile.StartInfo.FileName = "pdflatex";
-            latexCompile.StartInfo.Arguments = "\"" + folderPath + "\\" + title + ".tex\"";
+            latexCompile.StartInfo.Arguments = "\"" + folderPath + "\\main.tex\"";
 
             latexCompile.Start();
             latexCompile.WaitForExit();
 
             latexCompile.Start();
+            // TODO: mv main.pdf -> title.pdf (and possibly remove overhead from LaTeX compilation like .log, .out, etc...)
         }
 
         private void computeTeamTimes()

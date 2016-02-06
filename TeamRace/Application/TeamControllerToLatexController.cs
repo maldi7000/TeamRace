@@ -30,18 +30,7 @@ namespace TeamRace
 
         public String GenerateLatex()
         {
-            StringBuilder latex = new StringBuilder(@"\documentclass{report}
-\usepackage[utf8]{inputenc}
-\usepackage{multirow}
-\usepackage[normalem]{ulem}
-\usepackage{tabu}
-\usepackage{longtable}
-\usepackage[margin=0.5in]{geometry}
-\title{Manschaftsrennen}
-\author{Christoph Madlener}
-\pagenumbering{gobble}
-\begin{document}
-\section*{Rangliste " + title + @"}
+            StringBuilder latex = new StringBuilder(@"\section*{Rangliste " + title + @"}
 \begin{longtabu} to \linewidth {| c | l | l | c | l | l |}
 \hline 
 Rang & Team & Name & Startnummer & Zeit & Teamzeit \\ \hline
@@ -52,8 +41,7 @@ Rang & Team & Name & Startnummer & Zeit & Teamzeit \\ \hline
                 latex.Append(ToLatexSnippet(teamController.Teams[i], i + 1));
             }
 
-            latex.Append(@"\end{longtabu}
-\end{document}");
+            latex.Append(@"\end{longtabu}");
             return latex.ToString();
         }
 
