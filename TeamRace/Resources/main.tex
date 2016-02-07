@@ -10,6 +10,14 @@
 \author{Christoph Madlener}
 \pagenumbering{gobble}
 
+\newcommand{\mr}[2]{\multirow{#1}{*}{#2}}
+\newcommand{\raceClass}[1]{\section*{Rangliste #1}}
+\newcommand{\beginTab}{\begin{longtabu} to \linewidth{|c|l|l|c|l|l|} \hline}
+\newcommand{\tableHead}{Rang & Team & Name & Startnummer & Zeit & TeamZeit\\\hline\endhead}
+
+%% Unfortunately longtabu does not work with a defined command containing its end
+%% This couples the implementation and the LaTeX handling to a degree that I don't like
+
 \begin{document}
 
 \include{table} %% get the actual content of the table.
