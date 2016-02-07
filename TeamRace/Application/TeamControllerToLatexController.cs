@@ -65,7 +65,7 @@ namespace TeamRace
             {
                 snippet.Append(ToLatexSnippet(r, false));
             }
-            snippet.Append("\hline \n"); // add newline for readability
+            snippet.Append("\\hline \n"); // add newline for readability
             return snippet.ToString();
         }
 
