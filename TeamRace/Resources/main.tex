@@ -12,11 +12,14 @@
 
 \newcommand{\mr}[2]{\multirow{#1}{*}{#2}}
 \newcommand{\raceClass}[1]{\section*{Rangliste #1}}
-\newcommand{\beginTab}{\begin{longtabu} to \linewidth{|c|l|l|c|l|l|} \hline}
 \newcommand{\tableHead}{Rang & Team & Name & Startnummer & Zeit & TeamZeit\\\hline\endhead}
 
 %% Unfortunately longtabu does not work with a defined command containing its end
-%% This couples the implementation and the LaTeX handling to a degree that I don't like
+%% Thus we simply define a new environment. In this way if the tabular environment is changed
+%% only this document has to be changed but not the implementation of the program!
+\newenvironment{TRtable}
+{\begin{longtabu} to \linewidth{|c|l|l|c|l|l|} \hline \tableHead}
+{\end{longtabu}}
 
 \begin{document}
 

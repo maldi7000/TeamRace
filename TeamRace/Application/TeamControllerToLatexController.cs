@@ -31,15 +31,14 @@ namespace TeamRace
         public String GenerateLatex()
         {
             StringBuilder latex = new StringBuilder(@"\raceClass{" + title + @"}
-\beginTab
-\tableHead"); // using commands defined in main.tex
+\begin{TRtable}"); // using commands defined in main.tex
 
             for (int i = 0; i < teamController.Teams.Count(); i++)
             {
                 latex.Append(ToLatexSnippet(teamController.Teams[i], i + 1));
             }
 
-            latex.Append(@"\end{longtabu}"); // no specific command for this (see main.tex)
+            latex.Append(@"\end{TRtable}");
             return latex.ToString();
         }
 
