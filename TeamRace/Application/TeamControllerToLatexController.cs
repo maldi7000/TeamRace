@@ -30,18 +30,15 @@ namespace TeamRace
 
         public String GenerateLatex()
         {
-            StringBuilder latex = new StringBuilder(@"\section*{Rangliste " + title + @"}
-\begin{longtabu} to \linewidth {| c | l | l | c | l | l |}
-\hline 
-Rang & Team & Name & Startnummer & Zeit & Teamzeit \\ \hline
-\endhead");
+            StringBuilder latex = new StringBuilder(@"\raceClass{" + title + @"}
+\begin{TRtable}"); // using commands defined in main.tex
 
             for (int i = 0; i < teamController.Teams.Count(); i++)
             {
                 latex.Append(ToLatexSnippet(teamController.Teams[i], i + 1));
             }
 
-            latex.Append(@"\end{longtabu}");
+            latex.Append(@"\end{TRtable}");
             return latex.ToString();
         }
 
@@ -52,40 +49,39 @@ Rang & Team & Name & Startnummer & Zeit & Teamzeit \\ \hline
             StringBuilder snippet = new StringBuilder(makeMultiRow(multiRowSize, rank.ToString()));
             snippet.Append(" & ");
             snippet.Append(makeMultiRow(multiRowSize, t.Name.Replace("&", "\\&")));
-            snippet.Append(" & ");
             snippet.Append(ToLatexSnippet(t.Sledger, true));
 
             if (!isTrophy)
             {
-                snippet.Append(makeMultiRow(multiRowSize, t.TeamTime + "s"));
+                snippet.Append(makeMultiRow(multiRowSize, t.TeamTime + "\\,s")); // add small space between time and unit
             }
             else
             {
-                snippet.Append(makeMultiRow(multiRowSize, t.TrophyTime + "s"));
+                snippet.Append(makeMultiRow(multiRowSize, t.TrophyTime + "\\,s")); // add small space between time and unit
             }
-            snippet.Append(@"\\");
+            snippet.Append("\\\\ \n"); // add newline for readability
 
             foreach (Racer r in t.Skiers)
             {
                 snippet.Append(ToLatexSnippet(r, false));
             }
-            snippet.Append(@"\hline");
+            snippet.Append("\hline \n"); // add newline for readability
             return snippet.ToString();
         }
 
         private String ToLatexSnippet(Racer r, bool isFirst)
         {
-            StringBuilder snippet = new StringBuilder();
+            StringBuilder snippet = new StringBuilder(" & ");
             if (!isFirst)
             {
-                snippet.Append("& &");
+                snippet.Append(" & ");
             }
 
             snippet.Append(r.Name);
             snippet.Append(" & ");
             snippet.Append(r.Bib);
             snippet.Append(" & ");
-            snippet.Append(r.Time + "s & ");
+            snippet.Append(r.Time + "\\,s & "); // add small space between time and unit
             if (!isFirst)
             {
                 snippet.Append("\\\\ \n");
@@ -95,7 +91,7 @@ Rang & Team & Name & Startnummer & Zeit & Teamzeit \\ \hline
 
         private static String makeMultiRow(int rows, String content)
         {
-            return @"\multirow{" + rows + "}{*}{" + content + "}";
+            return @"\mr{" + rows + "}{" + content + "}";
         }
     }
 }
