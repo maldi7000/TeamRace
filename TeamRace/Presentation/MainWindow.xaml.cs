@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using System.Diagnostics;
+using System.Threading;
 
 namespace TeamRace
 {
@@ -143,6 +144,12 @@ namespace TeamRace
             if (result == CommonFileDialogResult.Ok)
             {
                 string folderPath = folderDialog.FileName;
+                if (File.Exists(folderPath + "\\main.tex"))
+                {
+                    File.Delete(folderPath + "\\main.tex");
+                }
+                var mainTex = Properties.Resources.main;
+                File.WriteAllBytes(folderPath + "\\main.tex", mainTex);
                 var engine = new FileHelperAsyncEngine<ExportRacer>();
                 engine.ErrorManager.ErrorMode = ErrorMode.IgnoreAndContinue;
 
@@ -196,6 +203,13 @@ namespace TeamRace
                         engine.WriteNext(sledger);
                     }
                 }
+
+                // clean up latex overhead
+                Process cleanUp = new Process();
+                cleanUp.StartInfo.FileName = ("cmd");
+                cleanUp.StartInfo.Arguments = ("/c del \"" + folderPath + "\\main.*\" \"" + folderPath + "\\table.*\"");
+
+                cleanUp.Start();
             }
 
         }
@@ -207,16 +221,22 @@ namespace TeamRace
             latexWriter.setIsTrophy(isTrophy);
 
             File.WriteAllText(folderPath + "\\table.tex", latexWriter.GenerateLatex());
-            // TODO: mv main.tex file (from Application) there and then compile compile there
+            
             Process latexCompile = new Process();
             latexCompile.StartInfo.FileName = "pdflatex";
-            latexCompile.StartInfo.Arguments = "\"" + folderPath + "\\main.tex\"";
+            latexCompile.StartInfo.Arguments = "-output-directory=\"" + folderPath + "\" \"" + folderPath + "\\main.tex\"";
 
             latexCompile.Start();
             latexCompile.WaitForExit();
 
             latexCompile.Start();
-            // TODO: mv main.pdf -> title.pdf (and possibly remove overhead from LaTeX compilation like .log, .out, etc...)
+            latexCompile.WaitForExit();
+            // TODO: remove overhead from LaTeX compilation like .log, .out, etc...
+            if (File.Exists(folderPath + "\\" + title + ".pdf"))
+            {
+                File.Delete(folderPath + "\\" + title + ".pdf");
+            }
+            File.Move(folderPath + "\\main.pdf", folderPath + "\\" + title + ".pdf");
         }
 
         private void computeTeamTimes()
